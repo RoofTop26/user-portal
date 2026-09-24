@@ -24,7 +24,8 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     const isLoginRequest = error.config && error.config.url && error.config.url.includes('/portal/login')
-    if (error.response && error.response.status === 401 && !isLoginRequest) {
+    const isChangePasswordRequest = error.config && error.config.url && error.config.url.includes('/portal/me/password')
+    if (error.response && error.response.status === 401 && !isLoginRequest && !isChangePasswordRequest) {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
       localStorage.removeItem('username')

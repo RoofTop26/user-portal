@@ -9,9 +9,11 @@ const email = ref('')
 const name = ref('')
 const dob = ref('')
 const errorMessage = ref('')
+const loading = ref(true)
 const submitting = ref(false)
 
 const loadProfile = async () => {
+  loading.value = true
   try {
     const response = await apiClient.get('/portal/me')
     username.value = response.data.username
@@ -20,6 +22,8 @@ const loadProfile = async () => {
     dob.value = response.data.dob
   } catch (error) {
     errorMessage.value = error.response?.data?.error || 'Không tải được hồ sơ'
+  } finally {
+    loading.value = false
   }
 }
 
@@ -43,7 +47,9 @@ onMounted(loadProfile)
   <div style="max-width: 400px; font-family: sans-serif;">
     <h2>Sửa hồ sơ</h2>
 
-    <form @submit.prevent="handleSubmit">
+    <div v-if="loading">Đang tải...</div>
+
+    <form v-else @submit.prevent="handleSubmit">
       <div style="margin-bottom: 15px;">
         <label style="display: block; margin-bottom: 5px;">Username:</label>
         <span>{{ username }}</span>

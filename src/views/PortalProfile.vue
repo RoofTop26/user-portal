@@ -5,14 +5,18 @@ import apiClient from '../api.js'
 
 const router = useRouter()
 const profile = ref(null)
+const loading = ref(true)
 const errorMessage = ref('')
 
 const loadProfile = async () => {
+  loading.value = true
   try {
     const response = await apiClient.get('/portal/me')
     profile.value = response.data
   } catch (error) {
     errorMessage.value = error.response?.data?.error || 'Không tải được hồ sơ'
+  } finally {
+    loading.value = false
   }
 }
 
@@ -29,6 +33,8 @@ onMounted(loadProfile)
 <template>
   <div style="max-width: 500px; font-family: sans-serif;">
     <h2>Hồ sơ của tôi</h2>
+
+    <div v-if="loading">Đang tải...</div>
 
     <div v-if="errorMessage" style="color: red;">{{ errorMessage }}</div>
 

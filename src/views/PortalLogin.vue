@@ -1,17 +1,20 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import apiClient from '../api.js'
 
+const route = useRoute()
 const router = useRouter()
 const username = ref('')
 const password = ref('')
 const errorMessage = ref('')
+const successMessage = ref(route.query.message || '')
 const submitting = ref(false)
 
 const handleLogin = async () => {
   submitting.value = true
   errorMessage.value = ''
+  successMessage.value = ''
   try {
     const response = await apiClient.post('/portal/login', {
       username: username.value,
@@ -55,6 +58,10 @@ const handleLogin = async () => {
           style="width: 100%; padding: 8px; box-sizing: border-box;"
           placeholder="Nhập password..."
         />
+      </div>
+
+      <div v-if="successMessage" style="color: green; margin-bottom: 15px; font-size: 14px;">
+        {{ successMessage }}
       </div>
 
       <div v-if="errorMessage" style="color: red; margin-bottom: 15px; font-size: 14px;">

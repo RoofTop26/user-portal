@@ -3,6 +3,7 @@ import PortalLogin from '../views/PortalLogin.vue'
 import PortalRegister from '../views/PortalRegister.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import ResetPassword from '../views/ResetPassword.vue'
+import VerifyEmail from '../views/VerifyEmail.vue'
 import PortalLayout from '../layouts/PortalLayout.vue'
 
 const router = createRouter({
@@ -12,6 +13,7 @@ const router = createRouter({
     { path: '/register', name: 'register', component: PortalRegister },
     { path: '/forgot-password', name: 'forgot-password', component: ForgotPassword },
     { path: '/reset-password', name: 'reset-password', component: ResetPassword },
+    { path: '/verify-email', name: 'verify-email', component: VerifyEmail },
     {
       path: '/',
       component: PortalLayout,
@@ -24,7 +26,7 @@ const router = createRouter({
   ],
 })
 
-const publicPaths = ['/login', '/register', '/forgot-password', '/reset-password']
+const publicPaths = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email']
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')

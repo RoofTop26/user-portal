@@ -1,15 +1,14 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import apiClient from '../api.js'
 
-const router = useRouter()
 const username = ref('')
 const email = ref('')
 const password = ref('')
 const name = ref('')
 const dob = ref('')
 const errorMessage = ref('')
+const successMessage = ref('')
 const submitting = ref(false)
 
 const handleRegister = async () => {
@@ -24,7 +23,7 @@ const handleRegister = async () => {
       dob: dob.value
     })
 
-    router.push('/login')
+    successMessage.value = 'Đăng ký thành công! Kiểm tra email để kích hoạt tài khoản.'
   } catch (error) {
     errorMessage.value = error.response?.data?.error || 'Đăng ký thất bại, vui lòng thử lại!'
   } finally {
@@ -90,6 +89,10 @@ const handleRegister = async () => {
           required
           style="width: 100%; padding: 8px; box-sizing: border-box;"
         />
+      </div>
+
+      <div v-if="successMessage" style="color: green; margin-bottom: 15px; font-size: 14px;">
+        {{ successMessage }}
       </div>
 
       <div v-if="errorMessage" style="color: red; margin-bottom: 15px; font-size: 14px;">

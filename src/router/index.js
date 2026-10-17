@@ -21,16 +21,21 @@ const router = createRouter({
         { path: 'me', name: 'me', component: () => import('../views/PortalProfile.vue') },
         { path: 'me/edit', name: 'me-edit', component: () => import('../views/PortalEditProfile.vue') },
         { path: 'me/password', name: 'me-password', component: () => import('../views/PortalChangePassword.vue') },
+        { path: 'products', name: 'products', component: () => import('../views/ProductCatalog.vue') },
+        { path: 'products/:id', name: 'product-detail', component: () => import('../views/ProductDetail.vue') },
+        { path: 'categories', name: 'categories', component: () => import('../views/CategoryBrowse.vue') },
+        { path: 'cart', name: 'cart', component: () => import('../views/CartView.vue') },
       ],
     },
   ],
 })
 
-const publicPaths = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email']
+const publicPaths = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email', '/products', '/categories']
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  if (!publicPaths.includes(to.path) && !token) {
+  const isPublic = publicPaths.includes(to.path) || to.path.startsWith('/products/')
+  if (!isPublic && !token) {
     next('/login')
   } else {
     next()

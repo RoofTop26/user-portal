@@ -2,6 +2,7 @@
 import { ref, onMounted, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import apiClient from '../api.js'
+import { formatPrice } from '../utils/format.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -47,7 +48,7 @@ onMounted(async () => {
     />
     <h2>{{ product.name }}</h2>
     <p>{{ product.description }}</p>
-    <p>Giá: {{ product.price }}</p>
+    <p>Giá: {{ formatPrice(product.price) }}</p>
     <p>Tồn kho: {{ product.stock }}</p>
     <p>Danh mục: {{ product.categoryName }}</p>
     <div style="margin-bottom: 15px;">

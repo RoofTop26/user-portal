@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, inject } from 'vue'
 import apiClient from '../api.js'
+import { formatPrice } from '../utils/format.js'
 
 const loadCartCount = inject('loadCartCount')
 const cart = ref(null)
@@ -30,7 +31,11 @@ const removeItem = async (itemId) => {
     return
   }
   errorMessage.value = ''
-  await apiClient.delete(`/portal/cart/${itemId}`)
+  try {
+    await apiClient.delete(`/portal/cart/${itemId}`)
+  } catch (error) {
+    errorMessage.value = error.response?.data?.error || 'Xóa sản phẩm thất bại!'
+  }
   await loadCart()
   await loadCartCount()
 }
@@ -40,7 +45,11 @@ const clearCart = async () => {
     return
   }
   errorMessage.value = ''
-  await apiClient.delete('/portal/cart')
+  try {
+    await apiClient.delete('/portal/cart')
+  } catch (error) {
+    errorMessage.value = error.response?.data?.error || 'Xóa giỏ hàng thất bại!'
+  }
   await loadCart()
   await loadCartCount()
 }
@@ -84,7 +93,7 @@ onMounted(loadCart)
               <div v-else style="width: 80px; height: 80px; background-color: #eee;"></div>
             </td>
             <td style="border: 1px solid #ccc; padding: 8px;">{{ item.productName }}</td>
-            <td style="border: 1px solid #ccc; padding: 8px;">{{ item.productPrice }}</td>
+            <td style="border: 1px solid #ccc; padding: 8px;">{{ formatPrice(item.productPrice) }}</td>
             <td style="border: 1px solid #ccc; padding: 8px;">
               <input
                 v-model.number="item.quantity"
@@ -94,7 +103,7 @@ onMounted(loadCart)
                 style="width: 70px; padding: 6px;"
               />
             </td>
-            <td style="border: 1px solid #ccc; padding: 8px;">{{ item.subtotal }}</td>
+            <td style="border: 1px solid #ccc; padding: 8px;">{{ formatPrice(item.subtotal) }}</td>
             <td style="border: 1px solid #ccc; padding: 8px;">
               <button @click="removeItem(item.id)" style="cursor: pointer;">Xóa</button>
             </td>
@@ -102,7 +111,7 @@ onMounted(loadCart)
         </tbody>
       </table>
 
-      <h3>Tổng tiền: {{ cart.totalAmount }}</h3>
+      <h3>Tổng tiền: {{ formatPrice(cart.totalAmount) }}</h3>
       <button @click="clearCart" style="padding: 8px 16px; cursor: pointer;">Xóa toàn bộ</button>
     </div>
   </div>

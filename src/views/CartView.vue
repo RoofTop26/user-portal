@@ -113,6 +113,9 @@ onMounted(loadCart)
 
       <h3>Tổng tiền: {{ formatPrice(cart.totalAmount) }}</h3>
       <button @click="clearCart" style="padding: 8px 16px; cursor: pointer;">Xóa toàn bộ</button>
+      <router-link to="/checkout">
+        <button style="padding: 8px 16px; cursor: pointer; margin-left: 10px;">Thanh toán</button>
+      </router-link>
     </div>
   </div>
 </template>

@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import apiClient from '../api.js'
+import { formatPrice } from '../utils/format.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -47,7 +48,7 @@ onMounted(async () => {
         />
         <div v-else style="width: 100%; height: 160px; background-color: #eee;"></div>
         <h3>{{ product.name }}</h3>
-        <p>{{ product.price }}</p>
+        <p>{{ formatPrice(product.price) }}</p>
         <p>{{ product.categoryName }}</p>
       </div>
     </div>

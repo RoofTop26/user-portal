@@ -41,6 +41,7 @@ const handleLogout = () => {
           Giỏ hàng
           <span style="background-color: red; color: white; border-radius: 10px; padding: 2px 8px; font-size: 12px;">{{ cartCount }}</span>
         </router-link>
+        <router-link to="/orders" style="color: white; text-decoration: none;">Đơn hàng</router-link>
         <span>{{ username }}</span>
         <button @click="handleLogout" style="padding: 6px 14px; cursor: pointer;">Đăng xuất</button>
       </div>
